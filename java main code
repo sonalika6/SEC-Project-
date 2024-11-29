@@ -1,0 +1,65 @@
+import java.sql.Connection;
+import java.util.Scanner;
+
+public class ArtMain {
+
+	public static void main(String[] args) {
+		DbOperation db = new DbOperation();
+		Connection conn = db.connection();
+
+		System.out.println("Welcome to The Art Gallery");
+		System.out.println("-----------------------------");
+		System.out.println("Enter 1 to see ART DETAILS");
+		System.out.println("Enter 2 to see ART TYPE");
+		System.out.println("Enter 3 to see ARTISTS");
+		System.out.println("Enter 4 to see EXHIBITION SCHEDULE");
+		System.out.println("Enter 5 to INSERT ART DETAILS");
+		Scanner sc = new Scanner(System.in);
+
+		int choice = sc.nextInt();
+
+		switch (choice) {
+		case 1:
+			System.out.println("These are the ART DETAILS:");
+			db.selectArtDetails(conn);
+			break;
+		case 2:
+			System.out.println("These are the ART TYPES:");
+			db.selectArtType(conn);
+			break;
+		case 3:
+			System.out.println("These are the ARTISTS:");
+			db.selectArtist(conn);
+			break;
+		case 4:
+			System.out.println("This is the EXHIBITION SCHEDULE:");
+			db.selectExhibitionSchedules(conn);
+			break;
+		case 5:
+			System.out.println("Insert the art details");
+			System.out.println("Enter the art id");
+			Scanner id = new Scanner(System.in);
+			int artid = id.nextInt();
+
+			System.out.println("Enter the art type");
+			Scanner type = new Scanner(System.in);
+			String arttype = type.nextLine();
+
+			System.out.println("Enter the art name");
+			Scanner name = new Scanner(System.in);
+			String artname = name.nextLine();
+			db.insertArtDetails(conn, artid, arttype, artname);
+			break;
+		default:
+			System.out.println("Invalid Choice");
+			break;
+
+		}
+
+		try {
+			conn.close();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+}
