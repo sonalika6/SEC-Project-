@@ -1,0 +1,83 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+public class DbOperation {
+
+	public Connection connection() {
+		Connection con = null;
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/artgallery", "root", ""); 
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return con;
+	}
+	
+	public void selectArtDetails(Connection con) {
+		try {
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("select * from artdetails");
+			System.out.println("    ART TYPE           ART NAME");
+			while (rs.next()) {
+				System.out.println(rs.getInt(1) + " " + rs.getString(2) + "         " + rs.getString(3));
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+	
+	public void selectArtType(Connection con) {
+		try {
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("select * from arttype");
+			System.out.println(" ");
+			while (rs.next()) {
+				System.out.println(rs.getInt(1) + "  " + rs.getString(2));
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+
+	public void selectArtist(Connection con) {
+		try {
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("select * from artists");
+			System.out.println("  ARTIST NAME       PHONE NO.");
+			while (rs.next()) {
+				System.out.println(rs.getInt(1) + "  " + rs.getString(2) + "       " + rs.getString(3));
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+	
+	public void selectExhibitionSchedules(Connection con) {
+		try {
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("select * from exhibitionschedules");
+			System.out.println("  EXHIBITION NAME  EXHIBITION VENUE      DATES        TIMING ");
+			while (rs.next()) {
+				System.out.println(rs.getInt(1) + "  " + rs.getString(2) + "    " + rs.getString(3) + "             "+ rs.getString(4)+ "       " + rs.getString(5));
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+
+	public void insertArtDetails(Connection con, int artid, String arttype, String artname ) {
+		try {
+			Statement stmt = con.createStatement();
+			String query = "INSERT INTO artdetails " + "VALUES (" + artid + ",'" + arttype + "','" + artname +"')";
+			stmt.executeUpdate(query);
+			System.out.println("Record is inserted in the table successfully");
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+
+}
+
